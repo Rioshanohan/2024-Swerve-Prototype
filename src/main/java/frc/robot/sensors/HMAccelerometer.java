@@ -1,10 +1,12 @@
 package frc.robot.sensors;
 
-import edu.wpi.first.wpilibj.BuiltInAccelerometer;
-import edu.wpi.first.wpilibj.interfaces.Accelerometer;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
+import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.math.filter.LinearFilter;
-
+import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * The {@code HMAccelerometer} class contains fields and methods pertaining to the function of the accelerometer.
@@ -14,32 +16,39 @@ public class HMAccelerometer {
 	static final double FLAT_TILT_THRESH_DEGREES = 6.0;
 	static final double SUPER_FLAT_TILT_THRESH_DEGREES = 3.0;
 	
-	private BuiltInAccelerometer accel;
+	AHRS gyro;
+	
 	private LinearFilter filterZ;
 	private LinearFilter filterAR;
 	
 	public HMAccelerometer() {
-		accel = new BuiltInAccelerometer(Accelerometer.Range.k4G);
-		
+		try{
+			gyro = new AHRS(SPI.Port.kMXP);
+		}catch(RuntimeException ex){
+			
+		}
+		gyro.reset();
+		gyro.calibrate();
+
 		filterZ = LinearFilter.movingAverage(5); // filter over n iterations
 		filterAR = LinearFilter.movingAverage(5); // filter over n iterations
 	}
 	
 	
 	public double getAccelX() {
-		return accel.getX();
+		return gyro.getRawAccelX();
 	}
 
 	public double getAccelY() {
-		return accel.getY();
+		return gyro.getRawAccelY();
 	}
 	
 	public double getAccelZ() {
-		return accel.getZ();
+		return gyro.getRawAccelZ();
 	}
 
 	public double getFilteredAccelZ() {
-		return filterZ.calculate(accel.getZ());
+		return filterZ.calculate(gyro.getRawAccelZ());
 	}
 	
 	public double getTilt() {

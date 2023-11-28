@@ -27,9 +27,9 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 //import edu.wpi.first.wpilibj2.command.InstantCommand;
 //import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
-import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
+//import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+//import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+//import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -47,22 +47,22 @@ import frc.robot.interfaces.INeck;
 import frc.robot.interfaces.IRoller;*/
 
 import frc.robot.subsystems.SwerveDrivetrain;
-import frc.robot.subsystems.Elevator;
-import frc.robot.subsystems.Drawer;
-import frc.robot.subsystems.Neck;
-import frc.robot.subsystems.Roller;
-import frc.robot.subsystems.Compressor;
-import frc.robot.subsystems.Mouth;
-import frc.robot.subsystems.Indicator;
+//import frc.robot.subsystems.Elevator;
+//import frc.robot.subsystems.Drawer;
+//import frc.robot.subsystems.Neck;
+//import frc.robot.subsystems.Roller;
+//import frc.robot.subsystems.Compressor;
+//import frc.robot.subsystems.Mouth;
+//import frc.robot.subsystems.Indicator;
 
 import frc.robot.commands.drivetrain.*;
-import frc.robot.commands.elevator.*;
-import frc.robot.commands.drawer.*;
-import frc.robot.commands.neck.*;
-import frc.robot.commands.roller.*;
-import frc.robot.commands.mouth.*;
-import frc.robot.commands.indicator.*;
-import frc.robot.commands.groups.*;
+//import frc.robot.commands.elevator.*;
+//import frc.robot.commands.drawer.*;
+//import frc.robot.commands.neck.*;
+//import frc.robot.commands.roller.*;
+//import frc.robot.commands.mouth.*;
+//import frc.robot.commands.indicator.*;
+//import frc.robot.commands.groups.*;
 //import frc.robot.commands.gamepad.*;
 import frc.robot.auton.*;
 import frc.robot.auton.common.*;
@@ -162,35 +162,36 @@ public class RobotContainer {
 
 	private final SwerveDrivetrain drivetrain = new SwerveDrivetrain();
 
+	/*
 	private final WPI_TalonSRX drawer_master = new WPI_TalonSRX(Ports.CAN.DRAWER);
 
-	private final /*I*/Drawer drawer = new Drawer(drawer_master);
+	private final Drawer drawer = new Drawer(drawer_master);
 
 	private final WPI_TalonSRX elevator_master = new WPI_TalonSRX(Ports.CAN.ELEVATOR_MASTER);
 
 	private final WPI_VictorSPX elevator_follower = new WPI_VictorSPX(Ports.CAN.ELEVATOR_FOLLOWER);
 
-	private final /*I*/Elevator elevator = new Elevator(elevator_master, elevator_follower);
+	private final Elevator elevator = new Elevator(elevator_master, elevator_follower);
 
 	private final WPI_TalonFX neck_master = new WPI_TalonFX(Ports.CAN.NECK);
 	
-	private final /*I*/Neck neck = new Neck(neck_master);
+	private final Neck neck = new Neck(neck_master);
 
 	private final WPI_TalonSRX roller_master = new WPI_TalonSRX(Ports.CAN.ROLLER);
 	
-	private final /*I*/Roller roller = new Roller(roller_master);
+	private final Roller roller = new Roller(roller_master);
 	
 	// pneumatic devices
 
 	private final Compressor compressor = new Compressor();
 
 	private final Mouth mouth = new Mouth();
-
+*/
 	// misc
 
 	private final Field2d field = new Field2d(); //  a representation of the field
 
-	private final Indicator indicator = new Indicator(null);
+	//private final Indicator indicator = new Indicator(null);
 
 	// The driver's and copilot's joystick(s) and controller(s)
 
@@ -289,12 +290,12 @@ public class RobotContainer {
 					true, true),
 				drivetrain));
 		
-		roller.setDefaultCommand(new RollerStopForever(roller)); // we stop by default
+/*		roller.setDefaultCommand(new RollerStopForever(roller)); // we stop by default
 
 		compressor.checkCompressor(); //we compress in the background
 
 		indicator.setDefaultCommand(new IndicatorScrollRainbow(indicator)); // temp
-
+*/
 	}
 
 	/**
@@ -335,7 +336,7 @@ public class RobotContainer {
 			.onTrue(new MoveInReverse(drivetrain, this, 3));
 			//.onTrue(new DrivetrainTurnAngleUsingPidController(drivetrain, 90));
 
-
+/*
 		joyMain.button(7)
 			.whileTrue(new RollerJoystickControl(roller, drivetrain, getMainJoystick()));
 		
@@ -417,13 +418,13 @@ public class RobotContainer {
 
 		copilotGamepad.axisLessThan(LY,-GAMEPAD_AXIS_THRESHOLD)
 			.whileTrue(new ElevatorGamepadControl(elevator, getCopilotGamepad()));
-
+*/
 		/*copilotGamepad.axisGreaterThan(LX,GAMEPAD_AXIS_THRESHOLD)
 			.whileTrue();
 
 		copilotGamepad.axisLessThan(LX,-GAMEPAD_AXIS_THRESHOLD)
 			.whileTrue();*/
-
+/*
 		copilotGamepad.axisGreaterThan(RY,GAMEPAD_AXIS_THRESHOLD)
 			.whileTrue(new NeckGamepadControl(neck, getCopilotGamepad()));
 
@@ -435,7 +436,7 @@ public class RobotContainer {
 
 		copilotGamepad.axisLessThan(RX,-GAMEPAD_AXIS_THRESHOLD)
 			.whileTrue(new DrawerGamepadControl(drawer, getCopilotGamepad()));	
-			
+*/			
 	}
 
 	/**
@@ -499,12 +500,12 @@ public class RobotContainer {
 			case AUTON_TEST_HARDCODED_MOVE_2:
 				return new MoveInNonBumpKTurn(drivetrain, this);
 				//break;
-
+/*
 			case AUTON_CUSTOM:
 				return new CustomAuton(gamePieceSelected, startPosition, mainTarget, cameraOption, sonarOption, autonOption,
 					drivetrain, this, elevator, drawer, roller, neck, mouth);
 				//break;
-
+*/
 			case AUTON_DO_NOTHING:
 				return null;
 				//break;
@@ -590,6 +591,7 @@ public class RobotContainer {
 	{
 		return drivetrain;
 	}
+/*
 
 	public Elevator getElevator()
 	{
@@ -615,7 +617,7 @@ public class RobotContainer {
 	{
 		return mouth;
 	}
-
+*/
 	public Joystick getMainJoystick()
 	{
 		return joyMain.getHID();
