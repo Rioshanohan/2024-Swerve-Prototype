@@ -156,7 +156,7 @@ public class RobotContainer {
 
 	// sensors
 
-	private final HMAccelerometer accelerometer = new HMAccelerometer();
+	// private final HMAccelerometer accelerometer = new HMAccelerometer();
 
 	// motorized devices
 
@@ -582,10 +582,10 @@ public class RobotContainer {
 		return field;
 	}
 
-	public HMAccelerometer getAccelerometer()
-	{
-		return accelerometer;
-	}
+	// public HMAccelerometer getAccelerometer()
+	// {
+	// 	return accelerometer;
+	// }
 
 	public SwerveDrivetrain getDrivetrain()
 	{
