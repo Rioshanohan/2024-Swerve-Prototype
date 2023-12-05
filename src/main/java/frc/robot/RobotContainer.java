@@ -77,7 +77,9 @@ import frc.robot.auton.common.*;
 public class RobotContainer {
 
 	public static final double GAMEPAD_AXIS_THRESHOLD = 0.15;
-	public static final double JOYSTICK_AXIS_THRESHOLD = 0.15;
+	public static final double JOYSTICK_X_AXIS_THRESHOLD = 0.15;
+	public static final double JOYSTICK_Y_AXIS_THRESHOLD = 0.15;
+	public static final double JOYSTICK_Z_AXIS_THRESHOLD = 0.25;
 
 	public static final int LX = 0;
 	public static final int LY = 1;
@@ -284,9 +286,9 @@ public class RobotContainer {
 			// We are also inverting RightX because we want a positive value when we pull to the left (CCW is positive in mathematics).
 			new RunCommand(
 				() -> drivetrain.drive(
-					-MathUtil.applyDeadband(joyMain.getY(), JOYSTICK_AXIS_THRESHOLD),
-					-MathUtil.applyDeadband(joyMain.getX(), JOYSTICK_AXIS_THRESHOLD),
-					-MathUtil.applyDeadband(joyMain.getZ(), JOYSTICK_AXIS_THRESHOLD),
+					-MathUtil.applyDeadband(joyMain.getY(), JOYSTICK_Y_AXIS_THRESHOLD),
+					-MathUtil.applyDeadband(joyMain.getX(), JOYSTICK_X_AXIS_THRESHOLD),
+					-MathUtil.applyDeadband(joyMain.getZ(), JOYSTICK_Z_AXIS_THRESHOLD),
 					true, true),
 				drivetrain));
 		

@@ -36,7 +36,7 @@ public class SwerveDrivetrain extends SubsystemBase {
 	public static final double REAR_LEFT_VIRTUAL_OFFSET_RADIANS = -0.934; // adjust as needed so that virtual (turn) position of wheel is zero when straight
 	public static final double REAR_RIGHT_VIRTUAL_OFFSET_RADIANS = +1.021; // adjust as needed so that virtual (turn) position of wheel is zero when straight
 */
-	public static final double FRONT_LEFT_VIRTUAL_OFFSET_RADIANS = -1.819; // adjust as needed so that virtual (turn) position of wheel is zero when straight
+	public static final double FRONT_LEFT_VIRTUAL_OFFSET_RADIANS = 1.25; // adjust as needed so that virtual (turn) position of wheel is zero when straight
 	public static final double FRONT_RIGHT_VIRTUAL_OFFSET_RADIANS = -3.083; // adjust as needed so that virtual (turn) position of wheel is zero when straight
 	public static final double REAR_LEFT_VIRTUAL_OFFSET_RADIANS = -2.205; // adjust as needed so that virtual (turn) position of wheel is zero when straight
 	public static final double REAR_RIGHT_VIRTUAL_OFFSET_RADIANS = -0.198; // adjust as needed so that virtual (turn) position of wheel is zero when straight
@@ -307,7 +307,7 @@ public class SwerveDrivetrain extends SubsystemBase {
 	public void zeroHeading() {
 		m_gyro.reset();
 		m_gyro.calibrate();
-		m_gyro.setAngleAdjustment(0);
+		m_gyro.setAngleAdjustment(90);
 	}
 
 	public void oppositeHeading() {
