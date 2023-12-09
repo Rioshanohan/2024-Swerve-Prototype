@@ -7,7 +7,13 @@ package frc.robot.subsystems;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.util.Units;
 
+import com.ctre.phoenix.sensors.AbsoluteSensorRange;
+import com.ctre.phoenix.sensors.CANCoder;
+import com.ctre.phoenix.sensors.CANCoderConfiguration;
+import com.ctre.phoenix.sensors.CANCoderStatusFrame;
+import com.ctre.phoenix.sensors.SensorTimeBase;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.SparkMaxPIDController;
@@ -25,10 +31,11 @@ public class SwerveModule {
 
 	private final RelativeEncoder m_drivingEncoder;
 	private final RelativeEncoder m_turningEncoder;
-	private final ThriftyEncoder m_turningAbsoluteEncoder;
+	private final CANCoder m_turningAbsoluteEncoder;
 
 	private final SparkMaxPIDController m_drivingPIDController;
 	private final SparkMaxPIDController m_turningPIDController;
+	private double offset = 0;
 
 	private SwerveModuleState m_desiredState = new SwerveModuleState(0.0, new Rotation2d());
 
@@ -48,7 +55,13 @@ public class SwerveModule {
 		// Setup encoders and PID controllers for the driving and turning SPARKS MAX.
 		m_drivingEncoder = m_drivingSparkMax.getEncoder();
 		m_turningEncoder = m_turningSparkMax.getEncoder();
-		m_turningAbsoluteEncoder = new ThriftyEncoder(turningAnalogPort);
+		m_turningAbsoluteEncoder = new CANCoder(turningAnalogPort);
+		CANCoderConfiguration config = new CANCoderConfiguration();
+		config.sensorCoefficient = 2*Math.PI/4096;
+		config.unitString = "rad";
+		config.sensorTimeBase = SensorTimeBase.PerSecond;
+		config.absoluteSensorRange = AbsoluteSensorRange.Signed_PlusMinus180;
+ 		m_turningAbsoluteEncoder.configAllSettings(config);
 
 		m_drivingPIDController = m_drivingSparkMax.getPIDController();
 		m_turningPIDController = m_turningSparkMax.getPIDController();
@@ -69,6 +82,7 @@ public class SwerveModule {
 		// Invert the turning controller, since the output shaft rotates in the opposite direction of
 		// the steering motor.
 		m_turningSparkMax.setInverted(true);
+
 
 		// Enable PID wrap around for the turning motor. This will allow the PID
 		// controller to go through 0 to get to the setpoint i.e. going from 350 degrees
@@ -170,13 +184,17 @@ public class SwerveModule {
 
 		m_turningSparkMax.set(0); // no moving during reset of relative turning encoder
 
-		m_turningEncoder.setPosition(m_turningAbsoluteEncoder.getVirtualPosition()); // set relative position based on virtual absolute position
+		m_turningEncoder.setPosition(m_turningAbsoluteEncoder.getAbsolutePosition()+offset); // set relative position based on virtual absolute position
 	}
 
 	/** Calibrates the virtual position (i.e. sets position offset) of the absolute encoder. */
 	public void calibrateVirtualPosition(double angle)
 	{
-		m_turningAbsoluteEncoder.setPositionOffset(angle);
+		this.offset = angle;
+	}
+
+	public double getOffset(){
+		return offset;
 	}
 
 	public RelativeEncoder getDrivingEncoder()
@@ -189,7 +207,7 @@ public class SwerveModule {
 		return m_turningEncoder;
 	}
 
-	public ThriftyEncoder getTurningAbsoluteEncoder()
+	public CANCoder getTurningAbsoluteEncoder()
 	{
 		return m_turningAbsoluteEncoder;
 	}

@@ -295,10 +295,10 @@ public class RobotContainer {
 			
 		drivetrain.setDefaultCommand(new RunCommand(
 			() -> drivetrain.drive(
-				-MathUtil.applyDeadband(driver.getLeftY(), JOYSTICK_Y_AXIS_THRESHOLD),
-				-MathUtil.applyDeadband(driver.getLeftX(), JOYSTICK_X_AXIS_THRESHOLD),
+				MathUtil.applyDeadband(driver.getLeftY(), JOYSTICK_Y_AXIS_THRESHOLD),
+				MathUtil.applyDeadband(driver.getLeftX(), JOYSTICK_X_AXIS_THRESHOLD),
 				-MathUtil.applyDeadband(driver.getRightX() , JOYSTICK_Z_AXIS_THRESHOLD),
-				false, true), drivetrain));
+				false, false), drivetrain));
 		
 /*		roller.setDefaultCommand(new RollerStopForever(roller)); // we stop by default
 
