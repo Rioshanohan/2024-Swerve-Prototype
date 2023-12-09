@@ -200,6 +200,7 @@ public class RobotContainer {
 	/*CommandJoystick joyLeft = new CommandJoystick(Ports.USB.LEFT_JOYSTICK);
 	CommandJoystick joyRight = new CommandJoystick(Ports.USB.RIGHT_JOYSTICK);*/
 	CommandJoystick joyMain = new CommandJoystick(Ports.USB.MAIN_JOYSTICK);
+	XboxController driver = new XboxController(Ports.USB.DRIVER_CONTROLLER);
 	//CommandXboxController driverGamepad = new CommandXboxController(Ports.USB.DRIVER_GAMEPAD);
 	CommandXboxController copilotGamepad = new CommandXboxController(Ports.USB.COPILOT_GAMEPAD);
 	
@@ -278,19 +279,26 @@ public class RobotContainer {
 
 		// Configure default commands
 
-		drivetrain.setDefaultCommand(
-			// The left stick controls translation of the robot.
-			// Turning is controlled by the X axis of the right stick.
-			// We are inverting LeftY because Xbox controllers return negative values when we push forward.
-			// We are inverting LeftX because we want a positive value when we pull to the left. Xbox controllers return positive values when you pull to the right by default.
-			// We are also inverting RightX because we want a positive value when we pull to the left (CCW is positive in mathematics).
-			new RunCommand(
-				() -> drivetrain.drive(
-					-MathUtil.applyDeadband(joyMain.getY(), JOYSTICK_Y_AXIS_THRESHOLD),
-					-MathUtil.applyDeadband(joyMain.getX(), JOYSTICK_X_AXIS_THRESHOLD),
-					-MathUtil.applyDeadband(joyMain.getZ(), JOYSTICK_Z_AXIS_THRESHOLD),
-					true, true),
-				drivetrain));
+		// drivetrain.setDefaultCommand(
+		// 	// The left stick controls translation of the robot.
+		// 	// Turning is controlled by the X axis of the right stick.
+		// 	// We are inverting LeftY because Xbox controllers return negative values when we push forward.
+		// 	// We are inverting LeftX because we want a positive value when we pull to the left. Xbox controllers return positive values when you pull to the right by default.
+		// 	// We are also inverting RightX because we want a positive value when we pull to the left (CCW is positive in mathematics).
+		// 	new RunCommand(
+		// 		() -> drivetrain.drive(
+		// 			-MathUtil.applyDeadband(joyMain.getY(), JOYSTICK_Y_AXIS_THRESHOLD),
+		// 			-MathUtil.applyDeadband(joyMain.getX(), JOYSTICK_X_AXIS_THRESHOLD),
+		// 			-MathUtil.applyDeadband(joyMain.getZ(), JOYSTICK_Z_AXIS_THRESHOLD),
+		// 			true, true),
+		// 		drivetrain));
+			
+		drivetrain.setDefaultCommand(new RunCommand(
+			() -> drivetrain.drive(
+				-MathUtil.applyDeadband(driver.getLeftY(), JOYSTICK_Y_AXIS_THRESHOLD),
+				-MathUtil.applyDeadband(driver.getLeftX(), JOYSTICK_X_AXIS_THRESHOLD),
+				-MathUtil.applyDeadband(driver.getRightX() , JOYSTICK_Z_AXIS_THRESHOLD),
+				false, true), drivetrain));
 		
 /*		roller.setDefaultCommand(new RollerStopForever(roller)); // we stop by default
 
