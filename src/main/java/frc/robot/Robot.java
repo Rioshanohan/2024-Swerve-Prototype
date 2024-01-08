@@ -150,6 +150,7 @@ public class Robot extends TimedRobot {
 
 		m_robotContainer.getField().setRobotPose(m_robotContainer.getDrivetrain().getPose());
 		SmartDashboard.putNumber(   "Heading",             m_robotContainer.getDrivetrain().getHeading());
+		SmartDashboard.putNumber("yaw", m_robotContainer.getDrivetrain().pigeon.getYaw());
 
 
 		// SmartDashboard.putNumber("AccelZ", m_robotContainer.getAccelerometer().getAccelZ());
