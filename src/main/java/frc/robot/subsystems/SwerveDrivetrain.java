@@ -320,7 +320,7 @@ public class SwerveDrivetrain extends SubsystemBase {
 
 	public void stop()
 	{
-		drive(0, 0, 0, false, false);
+		drive(0, 0, 0, true, false);
 
 		isTurning = false;
 	}
